@@ -973,7 +973,7 @@ void getListDescending_LOPENO(vector<string> &expectedCourse)
 		}
 		fin.close();
 		//printMultimap(desiredList);
-		printMultimapToFile_COMP_IT_SEQ_TOTAL_LOPENO(desiredList);
+		//printMultimapToFile_COMP_IT_SEQ_TOTAL_LOPENO(desiredList);
 		printMultimapToFile_Total_LOPENO(desiredList);
 		
 		//printMultimapToFile_COMP_IT_UNIWise(desiredList);
@@ -1381,7 +1381,7 @@ int main()
 	//getCollegeNames();
 	vector<vector<string>>bigV;	
 	vector<string>computer{"computer","information technology"}; bigV.pb(computer);
-	#if 0
+	#if 1
 	vector<string>mechanical{"mechanical"};bigV.pb(mechanical);
 	vector<string>civil{"civil"};bigV.pb(civil);
 	vector<string>electrical{"electrical"};bigV.pb(electrical);
@@ -1396,7 +1396,7 @@ int main()
 		for(auto course:bigV)
 		{			
 			getListDescending_University(course);
-			getListDescending_University_LOPENO(course);
+			//getListDescending_University_LOPENO(course);
 		}
 	}
 	
