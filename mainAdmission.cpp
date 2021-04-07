@@ -600,9 +600,8 @@ void printMultimapToFile_Total_LOPENO(multimap<U,D, greater<double>>&m)
 			index++;
 			fout<<endl;
 		}
-		fout<<"";
 		fout.close();
-		string newName = destinationPath + dirNameWith_ +"\\" + courseListName + "_Maha.csv";
+		string newName = destinationPath + dirNameWith_ +"\\" + courseListName + "TOTAL_LOPENO.csv";
 		rename(oldName.c_str(),newName.c_str());
 }
 
@@ -1391,9 +1390,6 @@ int main()
 	vector<string>Instrumentation{"Instrumentation"};bigV.pb(Instrumentation);
 	vector<string>food{"food"};bigV.pb(food);
 	vector<string>bitotechnology{"bio technology","bio medical"};bigV.pb(bitotechnology);
-	vector<string>Metallurg{"Metallurg"};bigV.pb(Metallurg);
-	vector<string>Production{"Production"};bigV.pb(Production);
-	
 	#endif
 	if(FlagUniversityWise == true)
 	{

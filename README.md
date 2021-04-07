@@ -10,7 +10,3 @@ Any feedback/Suggestions are welcome.
 Excel sheets are department wise college list with decreasing percentile cutOFF from year 2019.
 
 Chetan.
-
-
-
-TRY
