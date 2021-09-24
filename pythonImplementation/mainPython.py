@@ -48,8 +48,8 @@ def addValuesToDB(year, capRound, status,homeUniversity,collegeName,departementN
 
     myCollection = myDB["admission"]
     collegeList = collegeName.split("-")
-    collegeCode = collegeList[0].strip()
-    college = collegeList[1].strip()
+    collegeCode = collegeList[0].strip()    
+    college = collegeList[1].strip()  #TO DO consider this too Al-Ameen Educational and Medical Foundation, College of Engineering, Koregaon, Bhima
 
     department=""
     depCode = ""
@@ -223,8 +223,16 @@ def parse(year, capRound, inFileName,myDB):
         i = i+1
 
 
-
+def trial():
+    data = [23, 17, 35, 29, 12, 41]
+    sum =0
+    for i in data:
+        sum =sum+i
+    print(sum)
+    
 def main(inFile):
+    #trial()
+    
     queryOn = False
     graphsOn = True
     parsingOn = False
