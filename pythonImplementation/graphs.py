@@ -80,6 +80,8 @@ def pieSmartChartDepartments(start, end):
     plt.show()
     print("pi chart done for"+str(start)+"and"+str(end)) 
 
+
+
 def showTwoLinesDifference(word1,word2,start,end):
     
     fileName = word1+word2+str(start)+str(end)+".csv"
@@ -108,7 +110,19 @@ def showTwoLinesDifference(word1,word2,start,end):
     fOut.close()
 
     #START plot
-    data = pd.read_csv(fileName)    
+
+    
+    data = pd.read_csv(fileName)  
+    plt.ylim(start, end)
+
+    sns.scatterplot(data=data, x="index", y="percentile", hue="department", style="department",size = "percentile")     
+    plt.title(("Graph showing "+word1+" & "+ word2 + "in a range "+str(start)+" and "+str(end)))
+    plt.grid(True)   
+    plt.show() 
+    
+    '''
+
+    data = pd.read_csv(fileName)  
     plt.ylim(start, end)
     sns.pointplot(data = data
         ,x = 'index'
@@ -119,11 +133,12 @@ def showTwoLinesDifference(word1,word2,start,end):
    
     plt.grid()    
     plt.show() 
+    '''
     #END plot  
     print("There")
 
 def createGraph():   
-    piChart = False
+    piChart = True
     compareTwoLine = True
     if(piChart):
         start = 85
