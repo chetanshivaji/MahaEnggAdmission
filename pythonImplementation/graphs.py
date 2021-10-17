@@ -64,7 +64,7 @@ def pieSmartChartDepartments(start, end):
                                     shadow = True,                                    
                                     startangle = 90,
                                     wedgeprops = wp,
-                                    textprops = dict(color ="magenta"))
+                                    textprops = dict(color ="blue"))
     
     # Adding legend
     ax.legend(wedges, departments,
@@ -116,6 +116,7 @@ def showTwoLinesDifference(word1,word2,start,end):
     plt.ylim(start, end)
 
     sns.scatterplot(data=data, x="index", y="percentile", hue="department", style="department",size = "percentile")     
+    #sns.lmplot(data=data, x="index", y="percentile", hue="department")     
     plt.title(("Graph showing "+word1+" & "+ word2 + "in a range "+str(start)+" and "+str(end)))
     plt.grid(True)   
     plt.show() 
@@ -137,9 +138,64 @@ def showTwoLinesDifference(word1,word2,start,end):
     #END plot  
     print("There")
 
+def showCompareTwoCasts(department, start,end, referenceCast, compCast):        
+    skipCollegesDontOffereCompCast = True
+    fileName = department+"_"+referenceCast+"_"+compCast+"_"+str(start)+str(end)+".csv"
+    if(os.path.isfile(fileName)):
+        os.remove(fileName)
+
+    fOut = open(fileName,"w")    
+    headLine = "index"+","+"college"+ ","+"codeDepartment" +","\
+                + "department"+","+"casts"+","+"percentile"+"\n"
+    fOut.write(headLine)
+    
+    if(referenceCast == "general"):
+        referenceCast = "firstPercentileEntry"
+
+    overwriteDict = {}
+    index = 1        
+    numOfEntriesInRange = getDepartmentCastList(department, "firstPercentileEntry",start, end)    
+    for doc in numOfEntriesInRange:            
+        if(skipCollegesDontOffereCompCast and compCast not in (doc["casts"])):
+            #skipping colleges to come in output csv and graph which dont have entry for that comparign cast
+            continue
+
+        line = str(index)+","+doc["nameCollege"]    \
+            +","+doc["codeDepartment"]+","+department+","+referenceCast+","+str(doc[referenceCast])+"\n"
+        
+        fOut.write(line)        
+
+        #check if compare cast compCast is present
+        if(compCast in (doc["casts"])):            
+            line = str(index)+","+doc["nameCollege"]    \
+                +","+doc["codeDepartment"]+","+department+","+compCast+","+str(doc["casts"][compCast])+"\n"
+        else:
+           line = str(index)+","+doc["nameCollege"]    \
+                +","+doc["codeDepartment"]+","+department+","+compCast+","+str(0)+"\n"
+        fOut.write(line)
+        index = index+1
+
+    fOut.close()
+
+    #START plot
+
+    
+    data = pd.read_csv(fileName)  
+    plt.ylim(start, end)
+
+    sns.scatterplot(data=data, x="index", y="percentile", hue="casts", style="casts",size = "percentile")         
+    #sns.lmplot(data=data, x="index", y="percentile", hue="department")     
+    plt.title(("Graph showing "+department+" "+referenceCast+" & "+ compCast + "in a range "+str(start)+" and "+str(end)))
+    plt.grid(True)   
+    plt.show() 
+    
+    #END plot  
+    print("There")
+
 def createGraph():   
     piChart = True
     compareTwoLine = True
+    compareTwoCasts = False
     if(piChart):
         start = 85
         end = 100
@@ -151,6 +207,14 @@ def createGraph():
         start = 85
         end = 100
         showTwoLinesDifference(word1,word2,start,end)
+    if(compareTwoCasts):
+        department = "Electronics"        
+        start = 85
+        end = 100
+        referenceCast  = "general"
+        compCast = "LOPENO"
+        showCompareTwoCasts(department, start,end, referenceCast, compCast)
+
     
     sns.set(style="dark")
     fmri = sns.load_departmentEntriesCountset("fmri")

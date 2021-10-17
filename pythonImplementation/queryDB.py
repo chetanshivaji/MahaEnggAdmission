@@ -166,6 +166,24 @@ def getWordPercentilesList(department,start, end):
             }).sort("firstPercentileEntry",-1)      
    return numOfEntriesInRange
 
+def getDepartmentCastList(department, cast,start, end):
+   myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+   mydb = myclient["Engineering"]
+   myCollection = mydb["myCollection"]
+   
+   if(cast == "general"):
+      cast = "firstPercentileEntry"   
+
+   numOfEntriesInRange = myCollection.find(
+            {"$and":
+               [
+                  {"nameDepartment" : {"$regex":department,'$options': 'i'}},
+                  {cast:{"$gt":start}},
+                  {cast:{"$lt":end}}                                    
+               ]
+            }).sort(cast,-1)      
+   return numOfEntriesInRange
+
 def getNumberInRange(department,start,end):
    myclient = pymongo.MongoClient("mongodb://localhost:27017/")
    mydb = myclient["Engineering"]
