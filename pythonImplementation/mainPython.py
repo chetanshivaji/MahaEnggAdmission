@@ -117,7 +117,7 @@ def addValuesToDB(year, capRound, status,homeUniversity,collegeName,departementN
         "nameYear":year,
         "nameCap":capRound,
         "nameUniversity":homeUniversity,
-        "status":status,
+        "status":status,    
         "nameCollege":college,
         "codeCollege":collegeCode,
         "nameDepartment":department,
@@ -127,6 +127,95 @@ def addValuesToDB(year, capRound, status,homeUniversity,collegeName,departementN
     myDB.myCollection.insert_one(entry)
 
 
+def parse2021(year, capRound, inFileName,myDB):
+    fIn = open(inFileName,'r')
+    collegeCode = '0000'
+    oneLineAbove = ""
+    secondLineAbove = ""
+    lines = fIn.readlines()
+    i=0
+    while(i < len(lines)):    
+        currentLine = lines[i]        
+        if "Status" in currentLine:
+            statusLine= currentLine.replace(",",'')
+            statusLine= statusLine.replace("\n",'')
+            statusLine= statusLine.replace("Home University",'')
+            statusList = statusLine.split(':') 
+            status = statusList[1]
+            homeUniversity = statusList[len(statusList)-1]
+            oneLineAbove = lines[i-1]
+            departementName = oneLineAbove.replace(",",'')
+            departementName = departementName.replace("\"","")
+            #if("411624210" in departementName):
+            #   print("break")
+            
+            secondLineAbove = lines[i-2]
+            secondLineAbove = secondLineAbove.replace("\"","")
+            if(collegeCode!=departementName[0:4]):
+                collegeName = secondLineAbove.replace(",",'')
+                collegeCode = collegeName[0:4].replace(",",'')
+
+        elif "Stage" in currentLine: 
+            #create and keep adding casts for each stage table
+            #loop till we get status
+            casts=[]
+            castsPercentile = OrderedDict()
+            firstPercentileEntry = -1
+            while(i < len(lines)):
+                if("Status" in lines[i]):
+                    i = i-1
+                    break #while(1)
+                else:
+                    if("Stage" in lines[i]):
+                        castsLine = lines[i]
+                        
+                        castsLine = castsLine.replace(" ",'')            
+                        castsLine = castsLine.replace('\n','')
+                        casts = castsLine.split(",")            
+                        casts = [j for j in casts if j]
+                        casts.pop(0) 
+
+                        i  = i+2 #go to percentile of stage I
+                        percentileLine = lines[i]
+                        percentileLine = percentileLine.replace("\n",'')
+                        percentile = percentileLine.split(",")
+                        percentile.pop(0)            
+
+                        
+                        indx = 0        
+                        flagAbs= False    
+                        for cast in casts:
+                            percent = percentile[indx]
+                            
+                            if(not percent):
+                                #for missing entry in stage 1; look for stage 2; and note down its casts
+                                    #go to percentile of stage II
+                                if flagAbs==False:
+                                    i  = i+2
+                                    flagAbs = True
+                                stage2PercentileLine = lines[i]
+                                stage2PercentileLine = stage2PercentileLine.replace("\n",'')
+                                stage2Percentile = stage2PercentileLine.split(",") #create list using delimeter ','
+                                stage2Percentile.pop(0)    #remove first empty entry
+                                percent = stage2Percentile[indx]                                
+                                
+
+
+                            percent=percent.replace('(','')
+                            percent=percent.replace(')','')
+                            if(cast not in castsPercentile):
+                                castsPercentile[cast]=percent
+                                if(firstPercentileEntry==-1):
+                                    firstPercentileEntry=percent
+
+                            indx = indx+1
+                        
+                    i=i+1
+
+            addValuesToDB(year, capRound,status,homeUniversity,collegeName,departementName,castsPercentile,myDB,firstPercentileEntry)
+            castsPercentile.clear()
+            firstPercentileEntry=-1                        
+        i = i+1
 
 def parse(year, capRound, inFileName,myDB):
     fIn = open(inFileName,'r')
@@ -234,8 +323,8 @@ def main(inFile):
     #trial()
     
     queryOn = False
-    graphsOn = True
-    parsingOn = False
+    graphsOn = False
+    parsingOn = True
     if(queryOn):
         query()
     if(parsingOn):
@@ -245,14 +334,15 @@ def main(inFile):
         year = GetFileNameYear(inFile)
         capRound= GetRoundNumber(inFile)        
         #start parsing now;
-        parse(year, capRound,inFile,myDb)
+        parse2021(year, capRound,inFile,myDb)
     if(graphsOn):
         createGraph()
 
     print("end main")
 
 if __name__ == "__main__":
-    inFile = "MHT-CET-2019-Cutoff-Round-1-Maharashtra.csv"
+    #inFile = "MHT-CET-2019-Cutoff-Round-1-Maharashtra.csv"
+    inFile = "MHT-CET-2020-Cutoff-Round-1-Maharashtra.csv"
     main(inFile)
 
 
