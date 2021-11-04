@@ -20,8 +20,8 @@ def printListInFile(fd, list, headMessage):
    #START print uni list in general info file
    line = ""
    for each in list:
-      line = line+","+each
-   fd.write(headMessage+","+len(list)+"\n")
+      line = line+each+"\n"
+   fd.write(headMessage+","+str(len(list))+"\n\n")
    fd.write(line)
    #END print uni list in general info file
 
@@ -38,20 +38,22 @@ def  queryGeneralInfo(departments,uniLst,departmentsList):
    foutGen = open(outFileName,"w")
    mydb.myCollection.create_index([('nameDepartment', 'text')]) #Telling mongo db that we will search half string for that key
    
-   printListInFile(foutGen,uniLst,"university list")
-   printListInFile(foutGen,departmentsList,"distinct department list")
+   if(len(uniLst)!=1):
+      printListInFile(foutGen,uniLst,"university list")
+   printListInFile(foutGen,departmentsList,"\n\ndistinct department list")
    
 
    #START print uni list in general info file
-   uniLine = ""
-   for uni in uniLst:
-      uniLine = uniLine+","+uni
-   foutGen.write("Universities present "+len(uniLst)+"\n")
-   foutGen.write(uniLine)
+   if(len(uniLst)!=1):
+      uniLine = ""
+      for uni in uniLst:
+         uniLine = uniLine+","+uni
+      foutGen.write("Universities present "+len(uniLst)+"\n")
+      foutGen.write(uniLine)
    #END print uni list in general info file
 
-   foutGen.write("How many number of colleges provide single department?\n")
-   for depart in departments:   
+   foutGen.write("\n\n\nHow many number of colleges provide single department?\n")
+   for depart in departments:       
       foutGen.write("\n"+depart+"\n")
       foutGen.write(str(mydb.myCollection.find( { "$text": { "$search": depart } } ).count()))
 

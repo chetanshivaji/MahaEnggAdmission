@@ -48,15 +48,19 @@ def addValuesToDB(year, capRound, status,homeUniversity,collegeName,departementN
 
     myCollection = myDB["admission"]
     collegeList = collegeName.split("-")
-    collegeCode = collegeList[0].strip()    
-    college = collegeList[1].strip()  #TO DO consider this too Al-Ameen Educational and Medical Foundation, College of Engineering, Koregaon, Bhima
+    collegeCode = collegeList[0].strip() 
+    collegeList.pop(0)
+    college = collegeList[0].strip()
+    for i in range(1,len(collegeList)):
+        college = college+" "+collegeList[i].strip()   
 
-    department=""
-    depCode = ""
-    depList = departementName.split("-")
-    depCode = depList[0].strip()
-    department = depList[1].strip()
     
+    depList = departementName.split("-")
+    depCode = depList[0].strip() 
+    depList.pop(0)
+    department = depList[0].strip()
+    for i in range(1,len(depList)):
+        department = department+" "+depList[i].strip()        
     
     #START clean string
     year = year.replace(",","").replace("\"","") .strip()
@@ -135,22 +139,25 @@ def parse2021(year, capRound, inFileName,myDB):
     lines = fIn.readlines()
     i=0
     while(i < len(lines)):    
-        currentLine = lines[i]        
+        currentLine = lines[i]  
+        #print(currentLine)      
         if "Status" in currentLine:
             statusLine= currentLine.replace(",",'')
             statusLine= statusLine.replace("\n",'')
             statusLine= statusLine.replace("Home University",'')
             statusList = statusLine.split(':') 
             status = statusList[1]
-            homeUniversity = statusList[len(statusList)-1]
+            homeUniversity =""
             oneLineAbove = lines[i-1]
             departementName = oneLineAbove.replace(",",'')
+            departementName= departementName.replace("\n",'')
             departementName = departementName.replace("\"","")
             #if("411624210" in departementName):
             #   print("break")
             
             secondLineAbove = lines[i-2]
             secondLineAbove = secondLineAbove.replace("\"","")
+            secondLineAbove= secondLineAbove.replace("\n",'')
             if(collegeCode!=departementName[0:4]):
                 collegeName = secondLineAbove.replace(",",'')
                 collegeCode = collegeName[0:4].replace(",",'')
@@ -322,9 +329,9 @@ def trial():
 def main(inFile):
     #trial()
     
-    queryOn = False
+    queryOn = True
     graphsOn = False
-    parsingOn = True
+    parsingOn = False
     if(queryOn):
         query()
     if(parsingOn):

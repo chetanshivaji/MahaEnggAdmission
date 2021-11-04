@@ -1,0 +1,110 @@
+
+
+distinct department list,81
+
+Aeronautical Engineering
+Agricultural Engineering
+Artificial Intelligence
+Artificial Intelligence and Data Science
+Artificial Intelligence and Machine Learning
+Automation and Robotics
+Automobile Engineering
+Bio Medical Engineering
+Bio Technology
+Chemical Engineering
+Civil Engineering
+Civil and Environmental Engineering
+Civil and infrastructure Engineering
+Computer Engineering
+Computer Science and Engineering
+Computer Science and Engineering (Artificial Intelligence)
+Computer Science and Engineering (Internet of Things and Cyber Security Including Block Chain
+Computer Science and Engineering(Artificial Intelligence and Machine Learning)
+Computer Science and Engineering(Cyber Security)
+Computer Science and Engineering(Data Science)
+Computer Science and Information Technology
+Computer Science and Technology
+Computer Technology
+Cyber Security
+Data Engineering
+Data Science
+Dyestuff Technology
+Electrical Engg [Electrical and Power]
+Electrical Engg[Electronics and Power]
+Electrical Engineering
+Electrical and Electronics Engineering
+Electronics Engineering
+Electronics and Communication Engineering
+Electronics and Computer Engineering
+Electronics and Computer Science
+Electronics and Telecommunication Engg
+Fibres and Textile Processing Technology
+Food Engineering and Technology
+Food Technology
+Industrial Engineering
+Information Technology
+Instrumentation Engineering
+Instrumentation and Control Engineering
+Internet of Things (IoT)
+Man Made Textile Technology
+Manufacturing Science and Engineering
+Mechanical Engineering
+Mechanical Engineering Automobile
+Mechanical Engineering[Sandwich]
+Mechatronics Engineering
+Metallurgy and Material Technology
+Mining Engineering
+Oil Fats and Waxes Technology
+Oil Technology
+Oil and Paints Technology
+OilOleochemicals and Surfactants Technology
+Paints Technology
+Paper and Pulp Technology
+Petro Chemical Engineering
+Petro Chemical Technology
+Pharmaceutical and Fine Chemical Technology
+Pharmaceuticals Chemistry and Technology
+Plastic Technology
+Plastic and Polymer Engineering
+Plastic and Polymer Technology
+Polymer Engineering and Technology
+Printing Technology
+Printing and Packing Technology
+Production Engineering
+Production Engineering[Sandwich]
+Robotics
+Robotics and Automation
+Safety and Fire Engineering
+Silk Technology
+Structural Engineering
+Surface Coating Technology
+Textile Chemistry
+Textile Engineering (Fashion Technology)
+Textile Engineering / Technology
+Textile Plant Engineering
+Textile Technology
+
+
+
+How many number of colleges provide single department?
+
+computer
+374
+information
+129
+electronics
+291
+electrical
+184
+civil
+263
+mechanical
+299
+bio
+9
+chemical
+36
+food
+9
+textile
+9
