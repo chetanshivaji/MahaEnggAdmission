@@ -13,7 +13,7 @@ headLine = ("index"+","+
             +'University'+","             
             +'status'+"\n" )
 
-departments  = (["computer","information","electronics","electrical","civil",
+departments  = (["computer artificial cyber robot data Internet Mechatronics","information","electronics","electrical","civil",
                   "mechanical","bio","chemical","food","textile"])
 
 def printListInFile(fd, list, headMessage):
@@ -53,9 +53,9 @@ def  queryGeneralInfo(departments,uniLst,departmentsList):
    #END print uni list in general info file
 
    foutGen.write("\n\n\nHow many number of colleges provide single department?\n")
-   for depart in departments:       
+   for depart in departmentsList:       
       foutGen.write("\n"+depart+"\n")
-      foutGen.write(str(mydb.myCollection.find( { "$text": { "$search": depart } } ).count()))
+      foutGen.write(str(mydb.myCollection.find( { "nameDepartment": depart } ).count()))
 
    foutGen.close()
 

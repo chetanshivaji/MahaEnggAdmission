@@ -79,43 +79,6 @@ def addValuesToDB(year, capRound, status,homeUniversity,collegeName,departementN
         status="not present"
 
     #END clean string
-
-
-    '''
-    entry ={
-            "year":[
-                {
-                    "nameYear":year,
-                    "capRounds":[
-                        {
-                            "nameCap":capRound,
-                            "university":[
-                                {
-                                    "nameUniversity":homeUniversity,
-                                    "status":status,
-                                    "college":[
-                                        {
-                                            "nameCollege":college,
-                                            "codeCollege":collegeCode,
-                                            "deppartment":[
-                                                {
-                                                    "nameDepartment":department,
-                                                    "codeDepartment":depCode,
-                                                    "casts":castsPercentile
-                                                }
-                                            ]                                   
-                                        }
-                                    ]
-                                }
-
-                            ]
-                        }
-                    ]
-
-                }
-            ]
-        }
-    '''
     entry= {
         "firstPercentileEntry":firstPercentileEntry,
         "nameYear":year,
@@ -150,6 +113,8 @@ def parse2021(year, capRound, inFileName,myDB):
             homeUniversity =""
             oneLineAbove = lines[i-1]
             departementName = oneLineAbove.replace(",",'')
+            if("200824210" in departementName):
+                print("break")
             departementName= departementName.replace("\n",'')
             departementName = departementName.replace("\"","")
             #if("411624210" in departementName):
@@ -181,6 +146,11 @@ def parse2021(year, capRound, inFileName,myDB):
                         casts = castsLine.split(",")            
                         casts = [j for j in casts if j]
                         casts.pop(0) 
+                        
+                        #To handle perticular case; where after line having "stage" there is line with ",,,,,,,,,,,,,,,,,,S".
+                        
+                        if(",,,,S" in lines[i+1]):
+                            i=i+1
 
                         i  = i+2 #go to percentile of stage I
                         percentileLine = lines[i]
@@ -329,11 +299,11 @@ def trial():
 def main(inFile):
     #trial()
     
+    parsingOn = True
     queryOn = True
     graphsOn = False
-    parsingOn = False
-    if(queryOn):
-        query()
+    
+    
     if(parsingOn):
         dbName = "Engineering"
         myDb = initDB(dbName)    
@@ -341,10 +311,13 @@ def main(inFile):
         year = GetFileNameYear(inFile)
         capRound= GetRoundNumber(inFile)        
         #start parsing now;
-        parse2021(year, capRound,inFile,myDb)
+        #parse2021(year, capRound,inFile,myDb)
+        parse(year, capRound,inFile,myDb)
+    if(queryOn):
+        query()
     if(graphsOn):
         createGraph()
-
+    
     print("end main")
 
 if __name__ == "__main__":
