@@ -217,7 +217,7 @@ def createGraph():
 
     
     sns.set(style="dark")
-    fmri = sns.load_departmentEntriesCountset("fmri")
+    fmri = sns.load_dataset("fmri")
     print(fmri.head())
 
     # Plot the responses for different\

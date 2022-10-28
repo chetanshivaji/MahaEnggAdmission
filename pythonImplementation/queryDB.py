@@ -13,8 +13,22 @@ headLine = ("index"+","+
             +'University'+","             
             +'status'+"\n" )
 
-departments  = (["computer artificial cyber robot data Internet Mechatronics","information","electronics","electrical","civil",
-                  "mechanical","bio","chemical","food","textile"])
+departments  = (["computer information artificial cyber robot data IoT Internet Mechatronics",
+                 "electronics",
+                 "electrical",
+                 "civil",
+                  "mechanical",
+                  "bio",
+                  "chemical",
+                  "food",
+                  "textile",
+                  "Aeronautical",
+                   "Agricultural",
+                   "Automobile",
+                   "Fashion",
+                    "Food",
+                    "Plastic Polymer",
+                    "Production" ])
 
 def printListInFile(fd, list, headMessage):
    #START print uni list in general info file
@@ -48,14 +62,15 @@ def  queryGeneralInfo(departments,uniLst,departmentsList):
       uniLine = ""
       for uni in uniLst:
          uniLine = uniLine+","+uni
-      foutGen.write("Universities present "+len(uniLst)+"\n")
+      foutGen.write("Universities present "+str(len(uniLst))+"\n")
       foutGen.write(uniLine)
    #END print uni list in general info file
 
    foutGen.write("\n\n\nHow many number of colleges provide single department?\n")
    for depart in departmentsList:       
       foutGen.write("\n"+depart+"\n")
-      foutGen.write(str(mydb.myCollection.find( { "nameDepartment": depart } ).count()))
+      #foutGen.write(str(mydb.myCollection.find( { "nameDepartment": depart } ).count())) #commented only for 2022
+      foutGen.write(str(len(list(mydb.myCollection.find( { "nameDepartment": depart } ).clone())))) #commented only for 2022
 
    foutGen.close()
 
@@ -191,15 +206,15 @@ def getNumberInRange(department,start,end):
    mydb = myclient["Engineering"]
    myCollection = mydb["myCollection"]
    
-   numOfEntriesInRange = myCollection.find(
+   numOfEntriesInRange = (myCollection.find(
             {"$and":
                [
                   {"nameDepartment" : {"$regex":department,'$options': 'i'}},
                   {"firstPercentileEntry":{"$gt":start}},
                   {"firstPercentileEntry":{"$lt":end}}
                ]
-            }).count()
-
+            }))#.count()
+   numOfEntriesInRange = len(list(numOfEntriesInRange.clone()))
    return numOfEntriesInRange      
 
 def query(): 
@@ -213,7 +228,7 @@ def query():
    
    
 
-   createCsvsUniWise(departments, uniLst)      
+   #createCsvsUniWise(departments, uniLst)      
    
    print("query end")
      

@@ -196,6 +196,7 @@ def parse2021(year, capRound, inFileName,myDB):
 
 def parse(year, capRound, inFileName,myDB):
     fIn = open(inFileName,'r')
+    #with open(inFileName) as fIn:
     collegeCode = '0000'
     oneLineAbove = ""
     secondLineAbove = ""
@@ -220,6 +221,8 @@ def parse(year, capRound, inFileName,myDB):
             secondLineAbove = secondLineAbove.replace("\"","")
             if(collegeCode!=departementName[0:4]):
                 collegeName = secondLineAbove.replace(",",'')
+                if("627124510" in collegeName or "Dhankavdi" in collegeName):
+                    print("debug")
                 collegeCode = collegeName[0:4].replace(",",'')
 
         elif "Stage" in currentLine: 
@@ -235,18 +238,26 @@ def parse(year, capRound, inFileName,myDB):
                 else:
                     if("Stage" in lines[i]):
                         oneLineAbove = lines[i-1]
+                        '''
+                        #for 2019
                         if("University" in oneLineAbove or "State" in oneLineAbove):
                             castsLine = lines[i+1]
                             i = i+1    #above line was not as expected as casts so increment
                         else:                       
                             castsLine = oneLineAbove
+                        '''
+                        castsLine = currentLine #for 2022
+                        castsLine = castsLine.replace("Stage,",'')            
+                        
                         castsLine = castsLine.replace(" ",'')            
                         castsLine = castsLine.replace('\n','')
                         casts = castsLine.split(",")            
                         casts = [j for j in casts if j]
 
-
-                        i  = i+2 #go to percentile of stage I
+                        if(",,,S" in lines[i+1] or ",,H" in lines[i+1]):
+                            i = i+3
+                        else:    
+                            i  = i+2 #go to percentile of stage I
                         percentileLine = lines[i]
                         percentileLine = percentileLine.replace("\n",'')
                         percentile = percentileLine.split(",")
@@ -301,7 +312,7 @@ def main(inFile):
     
     parsingOn = True
     queryOn = True
-    graphsOn = False
+    graphsOn = True
     
     
     if(parsingOn):
@@ -322,7 +333,7 @@ def main(inFile):
 
 if __name__ == "__main__":
     #inFile = "MHT-CET-2019-Cutoff-Round-1-Maharashtra.csv"
-    inFile = "MHT-CET-2020-Cutoff-Round-1-Maharashtra.csv"
+    inFile = "/home/gnuhealth/engg/MahaEnggAdmission/pythonImplementation/MHT-CET-2022-Cutoff-Round-1-Maharashtra.csv"
     main(inFile)
 
 
